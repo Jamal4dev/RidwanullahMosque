@@ -4,8 +4,9 @@ A static frontend website for Ridwanullah Central Mosque in Ikorodu, Lagos. It b
 
 ## Features
 
-- Daily prayer timetable and next-prayer countdown, loaded from Aladhan for Ikorodu, Nigeria
-- Direct links to Quran.com for the full Qur’an, Al-Fatihah, Ayat al-Kursi, Al-Ikhlas, and Al-Falaq
+- Daily calculated Adhan timetable and next-prayer countdown, loaded from Aladhan for Ikorodu, Nigeria
+- Separate, manually editable Iqamah configuration; unconfirmed values display as “Not set”
+- Direct links to Quran.com for the full Qur’an, Al-Fatihah, Ayat al-Kursi, Al-Ikhlas, Al-Falaq, and An-Nas
 - Dhikr counter with locally saved count and target
 - Monthly calendar with Jumu’ah prayer listed every Friday at 2:30 PM
 - Expandable visitor FAQs
@@ -25,7 +26,7 @@ There is no backend, package manager, build step, or automated test suite in thi
 
 - `index.html` — page structure, mosque information, metadata, and contact form
 - `styles.css` — themes, layout, responsive behavior, and focus styling
-- `script.js` — API request, prayer countdown, calendar, resource cards, dhikr, theme, FAQ, and mailto behavior
+- `script.js` — API request, manually configured Iqamah values, prayer countdown, calendar, resource cards, dhikr, theme, FAQ, and mailto behavior
 - `images/profile.jpeg` — local mosque image used in the header
 
 ## Run locally
@@ -40,9 +41,11 @@ Open `http://localhost:8000` in a browser. A local web server is recommended ove
 
 ## Prayer times and events
 
-Prayer times are requested in the browser from Aladhan’s `timingsByCity` endpoint with city `Ikorodu`, country `Nigeria`, and calculation method `2`. The next-prayer display updates every second. If the request fails, the page shows an unavailable message rather than substituting made-up times. Public calculated times are a reference, not a mosque-issued timetable; confirm local congregation times and special schedules with the mosque.
+Calculated Adhan times are requested in the browser from Aladhan’s `timingsByCity` endpoint with city `Ikorodu`, country `Nigeria`, and calculation method `2`. Prayer clock values and daily refresh boundaries use the mosque’s `Africa/Lagos` timezone, independent of the visitor’s device timezone. The page validates the response, shows an unavailable message if loading fails, refreshes when the Lagos date changes, and retries every 30 minutes while open. The countdown updates every second, but the timetable only rerenders when its data changes. Sunrise remains visible in the timetable but is excluded from next-prayer selection; after Isha the next prayer is tomorrow’s Fajr.
 
-The calendar lists the recurring Friday Jumu’ah prayer at 2:30 PM, as provided by the mosque. It displays upcoming Friday occurrences for the next year.
+These are public calculated Adhan times, not a mosque-issued timetable. Mosque Iqamah times are kept separate in the clearly marked `IQAMAH_TIMES` object near the top of `script.js`. Replace a `null` value only with an Iqamah time confirmed by the mosque; Iqamah is never derived from Aladhan.
+
+The calendar opens on the current local month and lists Jumu’ah every Friday at 2:30 PM, separate from the five daily prayers. It generates upcoming Friday occurrences for approximately one year.
 
 ## Contact form
 
@@ -50,27 +53,27 @@ The form checks that name, email, and message are provided, then opens a `mailto
 
 ## Content and external services
 
-Qur’an links open Quran.com. Prayer timings require an internet connection and the Aladhan service to be reachable. Google Fonts also loads from Google when available; the site remains usable if external services are unavailable, except for live prayer data and linked resources.
+Qur’an links open Quran.com, including separate destinations for Al-Falaq and An-Nas. Prayer timings require an internet connection and the Aladhan service to be reachable. Google Fonts also loads from Google when available; the site remains usable if external services are unavailable, except for live prayer data and linked resources.
 
 Religious reminders and visitor guidance on this site are informational and do not replace mosque guidance or qualified scholarship. Confirm mosque-specific information with the administration before relying on or publishing it.
 
 ## Verification
 
-There is no automated test runner configured. The available syntax check is:
+There is no automated test runner configured. The JavaScript syntax check is:
 
 ```powershell
 node --check .\script.js
 ```
 
-For a browser smoke test, serve the site locally and verify:
+After serving the site locally, browser verification should cover:
 
 - The page loads, the local mosque image appears, and no “undefined” text is rendered.
-- Prayer times load when the API is available; the fallback appears when it is not.
-- Qur’an resource links open their labeled Quran.com pages.
-- The theme toggle, mobile menu, FAQ accordion, calendar navigation, and Friday Jumu’ah entries work.
-- Dhikr increments, resets, changes presets, and persists after reload.
-- Empty contact fields show validation feedback; complete fields prepare a mailto draft.
-- At a narrow mobile viewport, content does not overflow horizontally.
+- Adhan values load; Iqamah placeholders remain separate; the API failure fallback appears when needed.
+- Next-prayer boundaries select Fajr before Fajr, exclude Sunrise, and roll to tomorrow’s Fajr after Isha.
+- Friday events remain at 2:30 PM; date-only event keys stay on the intended local day.
+- All Qur’an links use HTTPS and the paired Al-Falaq/An-Nas resource links to both surahs.
+- Theme, navigation, FAQ, calendar, dhikr persistence/target validation, and contact validation work.
+- No horizontal overflow appears at 320, 360, 375, 390, 414, 768, 1024, or desktop widths.
 
 ## Deployment
 

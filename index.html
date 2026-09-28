@@ -6,10 +6,13 @@
   <title>Ridwanullah Central Mosque | Ikorodu, Lagos | Prayer Times & Community</title>
   <meta name="description" content="Ridwanullah Central Mosque in Ikorodu, Lagos serves the community with prayer times, Islamic education, events, Qur'an resources, and local mosque information." />
   <meta name="theme-color" content="#0f3d2e" />
+  <link rel="canonical" href="https://ridwanullahikorodu.netlify.app/" />
+  <link rel="icon" href="/images/profile.jpeg" type="image/jpeg" />
   <meta property="og:title" content="Ridwanullah Central Mosque" />
   <meta property="og:description" content="Prayer times, Islamic learning, community programs, and mosque information for the Ikorodu community." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="images/profile.jpeg" />
+  <meta property="og:url" content="https://ridwanullahikorodu.netlify.app/" />
+  <meta property="og:image" content="https://ridwanullahikorodu.netlify.app/images/profile.jpeg" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -29,7 +32,7 @@
         </div>
       </a>
 
-      <nav class="main-nav" aria-label="Main navigation">
+      <nav class="main-nav" id="mainNavigation" aria-label="Main navigation">
         <a href="#home">Home</a>
         <a href="#about">About</a>
         <a href="#prayer-times">Prayer Times</a>
@@ -43,7 +46,7 @@
         <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
           <span class="theme-toggle-label">🌙 Dark mode</span>
         </button>
-        <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+        <button class="menu-toggle" type="button" aria-label="Open menu" aria-controls="mainNavigation" aria-expanded="false">☰</button>
       </div>
     </div>
   </header>
@@ -66,14 +69,14 @@
           </ul>
         </div>
 
-        <div class="hero-panel" aria-live="polite">
+        <div class="hero-panel">
           <div class="live-status">
             <span class="status-dot" aria-hidden="true"></span>
             <span>Today's spiritual focus</span>
           </div>
-          <h2 id="nextPrayerName">Next prayer</h2>
+          <h2 id="nextPrayerName" aria-live="polite">Next prayer</h2>
           <p class="prayer-time-large" id="nextPrayerTime">--</p>
-          <p class="countdown-text" id="countdownText">Loading...</p>
+          <p class="countdown-text" id="countdownText" aria-live="off">Loading prayer times...</p>
           <p class="today-date" id="todayDate">Today: --</p>
         </div>
       </div>
@@ -106,7 +109,7 @@
       <div class="container section-header">
         <div>
           <p class="section-label">Prayer times</p>
-          <h2>Daily timetable for the masjid</h2>
+          <h2>Daily prayer timetable</h2>
         </div>
       </div>
       <div class="container prayer-layout">
@@ -115,14 +118,14 @@
             <p class="section-label small">Current schedule</p>
             <h3 id="currentPrayerLabel">Today</h3>
           </div>
-          <div class="prayer-list" id="prayerTable" aria-live="polite"></div>
+          <div class="prayer-list" id="prayerTable"></div>
         </div>
 
-        <aside class="prayer-card highlight-card" aria-live="polite">
+        <aside class="prayer-card highlight-card">
           <p class="section-label small">Next prayer</p>
-          <h3 id="nextPrayerNameDetailed">--</h3>
+          <h3 id="nextPrayerNameDetailed" aria-live="polite">--</h3>
           <p class="time-block" id="nextPrayerTimeDetailed">--</p>
-          <p class="countdown-text large" id="countdownTextDetailed">Calculating...</p>
+          <p class="countdown-text large" id="countdownTextDetailed" aria-live="off">Loading prayer times...</p>
           <p class="note">Ramadan and special event timing will be communicated.</p>
         </aside>
       </div>
@@ -179,14 +182,14 @@
       <div class="container daily-grid">
         <article class="daily-card verse-card">
           <p class="card-tag">Ayah of the day</p>
-          <p class="arabic-text">"فَإِنَّ مَعَ الْعُسْرِ يُسْرًا"</p>
+          <p class="arabic-text" lang="ar" dir="rtl">"فَإِنَّ مَعَ الْعُسْرِ يُسْرًا"</p>
           <p class="translation">“Indeed, with hardship comes ease.”</p>
           <p class="source">Surah Ash-Sharh 94:5-6</p>
         </article>
 
         <article class="daily-card hadith-card">
           <p class="card-tag">Hadith of the day</p>
-          <p class="hadith-text">“Actions are judged by intentions.”</p>
+          <p class="hadith-text" lang="en">“Actions are judged by intentions.”</p>
           <p class="translation">A reminder that sincere intention gives every act of worship meaning.</p>
           <p class="source">Sahih al-Bukhari 1, Sahih Muslim 1907</p>
         </article>
@@ -215,16 +218,14 @@
           <p class="dhikr-word" id="dhikrWord">SubhanAllah</p>
           <div class="counter-display" id="counterDisplay">0</div>
           <div class="dhikr-actions">
-            <button class="btn btn-primary" type="button" id="incrementDhikr">+1</button>
-            <button class="btn btn-secondary" type="button" id="resetDhikr">Reset</button>
+            <button class="btn btn-primary" type="button" id="incrementDhikr" aria-label="Increase dhikr count">+1</button>
+            <button class="btn btn-secondary" type="button" id="resetDhikr" aria-label="Reset dhikr count">Reset</button>
           </div>
           <div class="target-box">
             <label for="targetInput">Target count</label>
-            <input id="targetInput" type="number" min="1" value="33" />
+            <input id="targetInput" type="number" min="1" max="1000000" step="1" value="33" />
           </div>
-          <div class="progress-wrap" aria-label="Dhikr progress">
-            <div class="progress-bar" id="dhikrProgress"></div>
-          </div>
+          <progress class="progress-bar" id="dhikrProgress" aria-label="Dhikr target progress" value="0" max="33">0%</progress>
         </div>
 
         <div class="dhikr-card">
@@ -258,11 +259,13 @@
           <div class="event-header">
             <div>
               <h3>Upcoming events</h3>
-              <p id="selectedDayLabel">Select a day to see details.</p>
+              <p id="selectedDayLabel" aria-live="polite">Select a day to see details.</p>
             </div>
-            <span class="event-count" id="eventCount">0 events</span>
+            <span class="event-count" id="eventCount" aria-live="polite">0 events</span>
           </div>
-          <div class="event-toolbar" id="eventToolbar" aria-label="Event filters"></div>
+          <fieldset class="event-toolbar" id="eventToolbar">
+            <legend class="sr-only">Event filters</legend>
+          </fieldset>
           <ul class="event-list" id="eventList"></ul>
         </div>
       </div>
@@ -313,15 +316,15 @@
           <form id="contactForm" class="contact-form" novalidate>
             <label>
               <span>Your name</span>
-              <input id="visitorName" name="name" type="text" placeholder="Your name" required />
+              <input id="visitorName" name="name" type="text" autocomplete="name" maxlength="100" aria-describedby="formStatus" placeholder="Your name" required />
             </label>
             <label>
               <span>Email address</span>
-              <input id="visitorEmail" name="email" type="email" placeholder="you@example.com" required />
+              <input id="visitorEmail" name="email" type="email" autocomplete="email" maxlength="254" aria-describedby="formStatus" placeholder="you@example.com" required />
             </label>
             <label>
               <span>Message</span>
-              <textarea id="visitorMessage" name="message" rows="4" placeholder="How can we help?" required></textarea>
+              <textarea id="visitorMessage" name="message" rows="4" maxlength="2000" aria-describedby="formStatus" placeholder="How can we help?" required></textarea>
             </label>
             <button class="btn btn-primary" type="submit">Send email</button>
             <p class="form-status" id="formStatus" aria-live="polite"></p>
