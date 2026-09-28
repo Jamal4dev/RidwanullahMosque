@@ -74,6 +74,8 @@ For a browser smoke test, serve the site locally and verify:
 
 ## Deployment
 
+Live site: [ridwanullahikorodu.netlify.app](https://ridwanullahikorodu.netlify.app/).
+
 This project is already deployed on Netlify and connected to its GitHub repository. Commit and push changes to the branch configured for the Netlify site; Netlify will build and publish the update automatically. No manual upload or separate deployment setup is needed.
 
 The site is static and has no build command. Keep the existing Netlify build and publish settings for this repository. Local changes do not appear on the live site until they have been pushed and the Netlify deploy completes. Live prayer times require HTTPS and an available network connection.
